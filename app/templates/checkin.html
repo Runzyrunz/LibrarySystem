@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container checkin">
+        <h2>Check-in Book</h2>
+        <form method="get" class="search-form">
+            <input type="text" name="q" placeholder="Search by ISBN, Borrower Name, or Card ID">
+            <button type="submit">Search</button>
+        </form>
+
+        {% if loans %}
+            <form method="post" class="checkin-form">{% csrf_token %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Select</th>
+                            <th>Loan ID</th>
+                            <th>Book</th>
+                            <th>Borrower</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for loan in loans %}
+                            <tr>
+                                <td><input type="radio" name="loan_id" value="{{ loan.loan_id }}" required></td>
+                                <td>{{ loan.loan_id }}</td>
+                                <td>{{ loan.isbn.title }}</td>
+                                <td>{{ loan.card_id.bname }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <button type="submit">Check In Selected</button>
+            </form>
+        {% endif %}
+    </div>
+{% endblock %}

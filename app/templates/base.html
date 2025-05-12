@@ -1,0 +1,38 @@
+{# base.html #}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Library Management System</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    {% if user.is_authenticated %}
+        Welcome, {{ user.username }} | <a href="{% url 'logout' %}">Logout</a>
+    {% else %}
+        <a href="{% url 'login' %}">Login</a>
+    {% endif %}
+
+    <nav>
+        <a href="/">Search</a> |
+        <a href="/checkout/">Checkout</a> |
+        <a href="/checkin/">Checkin</a> |
+        <a href="/borrower/">Borrower</a> |
+        <a href="/fines/">Fines</a>
+    </nav>
+    <hr>
+    {% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <!-- This is the centered content area -->
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

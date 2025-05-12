@@ -1,0 +1,27 @@
+{# fines.html #}
+{% extends "base.html" %}
+{% block content %}
+<h2>Manage Fines</h2>
+<form method="get">
+    <label>Borrower ID:</label>
+    <input type="text" name="card_id">
+    <label>or Name:</label>
+    <input type="text" name="name">
+    <button type="submit">Search</button>
+</form>
+
+{% if fines %}
+    <table border="1">
+        <tr><th>Borrower</th><th>Total Fine</th></tr>
+        {% for item in fines %}
+        <tr><td>{{ item.borrower.bname }} ({{ item.borrower.card_id }})</td><td>${{ item.fine_total }}</td></tr>
+        {% endfor %}
+    </table>
+{% endif %}
+
+<h3>Pay All Fines</h3>
+<form method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Pay Fines</button>
+</form>
+{% endblock %}

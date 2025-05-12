@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block content %}
+    <h2>Search Results</h2>
+
+    <form method="get" action="{% url 'search' %}">
+        <input type="text" name="q" value="{{ query }}" placeholder="Search for books..." required>
+        <button type="submit">Search</button>
+    </form>
+
+    {% if results %}
+        <form method="post" action="{% url 'batch_checkout' %}">
+            {% csrf_token %}
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>Select</th>
+                        <th>Title</th>
+                        <th>ISBN</th>
+                        <th>Available</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for book in results %}
+                        <tr>
+                        <td>
+                            {% if book.available %}
+                            <input type="checkbox" name="isbns" value="{{ book.isbn }}">
+                            {% endif %}
+                        </td>
+                        <td>{{ book.title }}</td>
+                        <td>{{ book.isbn }}</td>
+                        <td>{{ book.available|yesno:"Yes,No" }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <button type="submit">Checkout Selected</button>
+        </form>
+    {% elif query %}
+        <p>No results found.</p>
+    {% endif %}
+{% endblock %}

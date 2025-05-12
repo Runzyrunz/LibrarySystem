@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+    <h2>Welcome, {{ borrower.bname }}</h2>
+
+    <h3>Your Checkouts:</h3>
+    {% if checkouts %}
+        <ul>
+            {% for loan in checkouts %}
+                <li>{{ loan.isbn.title }} (Due: {{ loan.due_date }})</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No active checkouts.</p>
+    {% endif %}
+
+    <h3>Unpaid Fines:</h3>
+    <p>${{ total_fines }}</p>
+
+    <a href="{% url 'search' %}">Search for Books</a>
+{% endblock %}

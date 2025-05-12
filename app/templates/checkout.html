@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container checkout">
+        <h2>Check-out Book</h2>
+        <form method="post" class="checkout-form">
+            {% csrf_token %}
+            <label for="isbn">ISBN:</label>
+            <input type="text" name="isbn" id="isbn" required>
+
+            <label for="card_id">Borrower Card ID:</label>
+            <input type="text" name="card_id" id="card_id" required>
+
+            <button type="submit">Checkout</button>
+        </form>
+    </div>
+{% endblock %}
